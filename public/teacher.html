@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Choose Your View</title>
+    <link rel="stylesheet" href="teacher.css">
+    <!-- Firebase v8 SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading-screen">
+        <p>Loading...</p>
+    </div>
+
+    <!-- Page content (hidden until Firebase is ready) -->
+    <div class="page-container" id="page-container">
+        <div class="welcome-card">
+            <h2><span id="first-name"></span></h2>
+            <h3>Select A View From Below</h3>
+        </div>
+        <div class="cards-container">
+            <div class="card" data-view="student">
+                <h3>Student View</h3>
+                <p>View as a student</p>
+            </div>
+            <div class="card" data-view="teacher">
+                <h3>Teacher View</h3>
+                <p>Manage student bookings</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="teacher.js"></script>
+</body>
+</html>

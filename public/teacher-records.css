@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    -webkit-touch-callout: none;  
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.navbar {
+    background-color: #333;
+    padding: 10px;
+    text-align: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 15px;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #575757;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+#loading {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    padding: 20px;
+}
+
+.card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.card p {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+.card p strong {
+    color: #555;
+}
+
+.status {
+    font-weight: bold;
+    padding: 8px 12px;
+    margin-top: 15px;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status.past {
+    background-color: #ffcccc;
+    color: #cc0000;
+    border: 1px solid #ff9999;
+}
+
+.status.upcoming {
+    background-color: #ccffcc;
+    color: #00cc00;
+    border: 1px solid #99ff99;
+}
+
+.no-bookings {
+    text-align: center;
+    font-size: 20px;
+    color: #555;
+    padding: 40px 20px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    display: none;
+    border: 2px dashed #ccc;
+}
+
+.no-bookings::before {
+    content: "📚";
+    display: block;
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    .navbar a {
+        font-size: 16px;
+        padding: 8px;
+        margin: 0 10px;
+    }
+    
+    .card {
+        padding: 12px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+}

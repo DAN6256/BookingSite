@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Courses</title>
+  <link rel="stylesheet" href="upload-courses.css">
+  <!-- SheetJS for Excel parsing -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Courses Excel</h1>
+    <input type="file" id="fileInput" accept=".xlsx,.xls" />
+    <button id="uploadBtn" disabled>Upload to Database</button>
+    <div id="status"></div>
+  </div>
+
+  <script type="module" src="upload-courses.js"></script>
+</body>
+</html>

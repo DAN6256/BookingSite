@@ -1,0 +1,103 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(228, 205, 205);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    -webkit-touch-callout: none;  
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.auth-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.auth-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.password-container input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    margin-bottom: 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #666;
+    font-size: 18px;
+    user-select: none;
+}
+
+.password-toggle:hover {
+    color: #ffa500;
+}
+
+.auth-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ffa500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.auth-container button:hover {
+    background-color: #887450;
+}
+
+.auth-container .error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.toggle-link {
+    color: #ffa500;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.forgot-password {
+    color: #666;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.success-message {
+    color: green;
+    margin-bottom: 10px;
+}

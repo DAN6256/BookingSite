@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Page - Tutor Booking</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading">
+        <p>Loading...</p>
+    </div>
+
+    <div id="page-container" class="page-container">
+        <div class="welcome-card">
+            <h2><span id="first-name"></span></h2>
+            <h3>Your learning support begins here...</h3>
+        </div>
+        
+        <div class="cards-container">
+            <div class="card" id="book-tutor-card">
+                <h3>Book a Tutor</h3>
+                <p>Find and book a tutor for your needs.</p>
+                <a href="booktutor.html" class="button">Book Now</a>
+            </div>
+            
+            <div class="card" id="booking-records-card">
+                <h3>Check Booking Records</h3>
+                <p>Review your past bookings and upcoming sessions.</p>
+                <a href="records.html" class="button">View Records</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="home.js"></script>
+</body>
+</html>

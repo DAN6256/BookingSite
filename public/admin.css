@@ -1,0 +1,120 @@
+/* Overall page styling */
+html, body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    -webkit-touch-callout: none;  
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Title card */
+.title-card {
+    background-color: #4caf50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Container for session sections */
+.section {
+    padding: 20px;
+    margin: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for all booking cards, using grid for responsiveness */
+#upcomingSessions,
+#passedSessions {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+/* Card styling */
+.card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.card .title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.card .subject {
+    color: #4caf50;
+    font-size: 16px;
+}
+
+/* Flag styling */
+.past {
+    color: red;
+    font-weight: bold;
+}
+
+.upcoming {
+    color: green;
+    font-weight: bold;
+}
+
+button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #556256;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Media queries for font scaling and padding adjustments on smaller screens */
+@media (max-width: 768px) {
+    .card {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-card {
+        font-size: 20px;
+    }
+    .card {
+        padding: 10px;
+    }
+}

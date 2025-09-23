@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management</title>
+    <link rel="stylesheet" href="manage-courses.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Course Management</h1>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Manage Classes</h2>
+            <div class="form-group">
+                <input type="text" id="newClassName" placeholder="Enter class year (e.g., 2027)" />
+                <button class="button" id="addClassBtn">Add Class</button>
+            </div>
+            <div id="classList"></div>
+        </div>
+
+        <div class="card">
+            <h2>Add New Course</h2>
+            <div class="form-group">
+                <input type="text" id="newCourseName" placeholder="Enter course name" />
+                <button class="button" id="addCourseBtn">Add Course</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Add New Teacher</h2>
+            <div class="form-group">
+                <select id="courseSelect"></select>
+            </div>
+            <div class="form-group">
+                <input type="text" id="teacherName" placeholder="Teacher Name" />
+            </div>
+            <div class="form-group">
+                <input type="email" id="teacherEmail" placeholder="Teacher Email" />
+            </div>
+            <div class="form-group">
+                <input type="tel" id="teacherNumber" placeholder="Phone Number" />
+            </div>
+            <div class="form-group">
+                <h3>Available Times</h3>
+                <div class="time-controls">
+                    <select id="daySelect">
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Sat">Saturday</option>
+                        <option value="Sun">Sunday</option>
+                    </select>
+                    <select id="timeSelect">
+                        <option value="8:00 AM">8:00 AM</option>
+                        <option value="9:00 AM">9:00 AM</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="1:00 PM">1:00 PM</option>
+                        <option value="2:00 PM">2:00 PM</option>
+                        <option value="3:00 PM">3:00 PM</option>
+                        <option value="4:00 PM">4:00 PM</option>
+                        <option value="5:00 PM">5:00 PM</option>
+                        <option value="6:00 PM">6:00 PM</option>
+                        <option value="7:00 PM">7:00 PM</option>
+                        <option value="8:00 PM">8:00 PM</option>
+                        <option value="9:00 PM">9:00 PM</option>
+                        <option value="10:00 PM">10:00 PM</option>
+                        <option value="11:00 PM">11:00 PM</option>
+                    </select>
+                    <button class="button" id="addTimeBtn">Add Time</button>
+                </div>
+                <div id="timesList"></div>
+            </div>
+            <button class="button" id="addTeacherBtn">Add Teacher</button>
+        </div>
+
+        <div class="card">
+            <h2>Courses and Teachers</h2>
+            <div id="coursesList"></div>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <h2>Edit Teacher</h2>
+            <div class="form-group">
+                <input type="text" id="editTeacherName" placeholder="Teacher Name" />
+            </div>
+            <div class="form-group">
+                <input type="email" id="editTeacherEmail" placeholder="Teacher Email" />
+            </div>
+            <div class="form-group">
+                <input type="tel" id="editTeacherNumber" placeholder="Phone Number" />
+            </div>
+            <div class="form-group">
+                <h3>Available Times</h3>
+                <div class="time-controls">
+                    <select id="editDaySelect">
+                        <option value="Mon">Monday</option>
+                        <option value="Tue">Tuesday</option>
+                        <option value="Wed">Wednesday</option>
+                        <option value="Thu">Thursday</option>
+                        <option value="Fri">Friday</option>
+                        <option value="Sat">Saturday</option>
+                        <option value="Sun">Sunday</option>
+                    </select>
+                    <select id="editTimeSelect">
+                        <option value="8:00 AM">8:00 AM</option>
+                        <option value="9:00 AM">9:00 AM</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="1:00 PM">1:00 PM</option>
+                        <option value="2:00 PM">2:00 PM</option>
+                        <option value="3:00 PM">3:00 PM</option>
+                        <option value="4:00 PM">4:00 PM</option>
+                        <option value="5:00 PM">5:00 PM</option>
+                        <option value="6:00 PM">6:00 PM</option>
+                        <option value="7:00 PM">7:00 PM</option>
+                        <option value="8:00 PM">8:00 PM</option>
+                        <option value="9:00 PM">9:00 PM</option>
+                        <option value="10:00 PM">10:00 PM</option>
+                        <option value="11:00 PM">11:00 PM</option>
+                    </select>
+                    <button class="button" id="addEditTimeBtn">Add Time</button>
+                </div>
+                <div id="editTimesList"></div>
+            </div>
+            <button class="button" id="saveTeacherBtn">Save Changes</button>
+        </div>
+    </div>
+    
+    <script src="manage-courses.js"></script>
+</body>
+</html>

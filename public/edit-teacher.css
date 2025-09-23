@@ -1,0 +1,138 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    -webkit-touch-callout: none;  
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.navbar {
+    background-color: #333;
+    padding: 1rem;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.course-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-title {
+    font-size: 1.25rem;
+    margin: 0 0 1rem 0;
+    color: #333;
+}
+
+.teacher-info {
+    margin-bottom: 1rem;
+}
+
+.time-tag {
+    background: #e0e0e0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    margin: 0.25rem;
+    display: inline-block;
+    font-size: 0.9em;
+}
+
+.edit-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.edit-btn:hover {
+    background-color: #45a049;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #999;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.time-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.time-controls select {
+    flex: 1;
+}
+
+.time-controls button {
+    margin-top: 0;
+}

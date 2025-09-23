@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutor Booking Platform</title>
+    <link rel="stylesheet" href="booktutor.css">
+    <script src="config.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="home.html">Home</a>
+        <a href="records.html">Check Booking Records</a>
+    </nav>
+    
+    <div class="container">
+        <h1 style="text-align: center">Booking Information</h1>
+        
+        <div class="row">
+            <div class="column">
+                <img
+                    class="img"
+                    src="Booking Picture.jpg"
+                    loading="lazy"
+                    alt="Students"
+                />
+            </div>
+            
+            <div class="column">
+                <label for="subject">Select a Course:</label>
+                <select id="subject" onchange="BookingController.populateTeachers()">
+                    <option value="">--Select Course--</option>
+                </select>
+                <br /><br />
+                
+                <label for="teacher">Select a Tutor:</label>
+                <select id="teacher" onchange="BookingController.populateAvailableTimes()"></select>
+                <br /><br />
+                
+                <label for="time">Select a Time:</label>
+                <select id="time"></select>
+                <br /><br />
+                
+                <label for="userClass">Select Your Class:</label>
+                <select id="userClass">
+                    <option value="">--Select Class--</option>
+                </select>
+                <br /><br />
+
+                <label for="topic">Topic or Challenge:</label>
+                <input
+                    type="text"
+                    id="topic"
+                    placeholder="Enter your topic, be specific"
+                />
+                <br /><br />
+
+                <button onclick="BookingController.bookSession()">Book</button>
+                
+                <div id="message"></div>
+            </div>
+        </div>
+        
+        <i>
+            <h4 style="text-align: center; color: #333; font-style: italic">
+                POWERED BY MASTERCARD FOUNDATION SCHOLARS AND ACADEMIC ADVISOR'S OFFICE
+            </h4>
+        </i>
+    </div>
+
+    <script type="module" src="booktutor.js"></script>
+</body>
+</html>

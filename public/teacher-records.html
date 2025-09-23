@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Records</title>
+    <link rel="stylesheet" href="teacher-records.css">
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js" type="module"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html">Switch to Student View</a>
+    </div>
+    
+    <div class="container">
+        <h1>Your Bookings</h1>
+        <div id="loading">Loading your bookings...</div>
+        <div id="bookings-list"></div>
+        <div id="no-bookings-message" class="no-bookings">
+            No bookings yet.
+        </div>
+    </div>
+
+    <script type="module" src="teacher-records.js"></script>
+</body>
+</html>

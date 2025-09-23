@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutor Booking Platform - Sign In / Sign Up</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="auth-container">
+        <h1>Booking Platform</h1>
+        <h2>Sign In / Sign Up</h2>
+        <div class="error-message" id="error-message"></div>
+        <div class="success-message" id="success-message"></div>
+        <input type="email" id="email" placeholder="Enter your email" />
+        
+        <div class="password-container">
+            <input type="password" id="password" placeholder="Enter your password" />
+            <span class="password-toggle" id="password-toggle">👁️</span>
+        </div>
+
+        <div id="sign-in-link">
+            <button id="sign-in-button"><b>Sign In</b></button>
+            <span id="forgot-password" class="forgot-password">Forgot Password?</span>
+        </div>
+
+        <div id="sign-up-link" style="display: none">
+            <button id="sign-up-button"><b>Sign Up</b></button>
+        </div>
+
+        <p>
+            <span id="toggle-text" class="toggle-link">
+                <b>Don't have an account? Sign Up</b>
+            </span>
+        </p>
+    </div>
+
+    <script type="module" src="index.js"></script>
+</body>
+</html>

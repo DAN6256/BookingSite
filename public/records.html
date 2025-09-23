@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Bookings</title>
+    <link rel="stylesheet" href="records.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js" type="module"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="home.html">Home</a>
+        <a href="booktutor.html">Book A Tutor</a>
+    </div>
+    
+    <div class="container">
+        <h1>Your Bookings</h1>
+        <div id="loading">Loading your bookings...</div>
+        <div id="bookings-list"></div>
+        <div id="no-bookings-message" class="no-bookings">
+            You have not booked anyone yet.
+        </div>
+    </div>
+
+    <script type="module" src="records.js"></script>
+</body>
+</html>

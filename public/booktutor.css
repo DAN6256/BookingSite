@@ -1,0 +1,156 @@
+/* Reset and Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styles */
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    height: 100%;
+    background-color: white;
+}
+
+/* Layout Styles */
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.column {
+    flex: 33.33%;
+    padding: 5px;
+}
+
+.column:first-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Navigation Styles */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(235, 171, 53);
+    padding: 10px 0;
+}
+
+.navbar a {
+    margin: 0 15px;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.navbar a:hover {
+    background-color: #005bb5;
+}
+
+/* Image Styles */
+.img {
+    width: 100%;
+    align-self: center;
+}
+
+/* Typography */
+h1,
+label {
+    color: rgb(235, 171, 53);
+}
+
+/* Form Elements */
+select,
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: rgb(235, 171, 53);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005bb5;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* State Classes */
+.loading {
+    opacity: 0.6;
+}
+
+/* Message Styles */
+.error-message {
+    color: #d32f2f;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.success-message {
+    color: #388e3c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+#message {
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 600px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .navbar a {
+        margin: 0 5px;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    
+    .column:first-child {
+        justify-content: flex-start;
+    }
+    
+    select,
+    input[type="text"],
+    button {
+        width: 80%;
+    }
+}

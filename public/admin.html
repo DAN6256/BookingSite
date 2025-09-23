@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Records</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+    <script src="config.js"></script>
+</head>
+<body>
+    <div class="title-card">
+        Booking Records
+        <p id="bookingCount" style="font-size: 18px; margin-top: 10px">
+            Total Bookings Since 2025: 0
+        </p>
+        <button id="downloadBtn">Download Bookings</button>
+    </div>
+
+    <div class="section">
+        <h2 style="color: green">Upcoming Sessions</h2>
+        <div id="upcomingSessions"></div>
+    </div>
+
+    <div class="section">
+        <h2 style="color: red">Passed Sessions</h2>
+        <div id="passedSessions"></div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
