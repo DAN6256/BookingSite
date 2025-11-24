@@ -103,6 +103,23 @@ button:hover {
     padding: 20px;
 }
 
+.delete-card-btn {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin-top: 15px;
+    width: 100%; /* Full width button looks good in cards */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.delete-card-btn:hover {
+    background-color: #cc0000;
+}
+
 /* Media queries for font scaling and padding adjustments on smaller screens */
 @media (max-width: 768px) {
     .card {

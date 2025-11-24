@@ -431,6 +431,7 @@ class BookingController {
     }
 
     // Book a session
+    /*
     async bookSession() {
         const user = this.model.getCurrentUser();
         
@@ -515,8 +516,105 @@ class BookingController {
         } finally {
             this.view.setLoading(false);
         }
+    }*/
+   // Book a session - FIXED VERSION
+async bookSession() {
+    const user = this.model.getCurrentUser();
+    
+    if (!user) {
+        this.view.showMessage("You must be logged in to book a session.", true);
+        return;
     }
 
+    const formValues = this.view.getFormValues();
+    const { subject, teacherName, selectedTime, topic, userClass } = formValues;
+
+    // Validation
+    if (!subject || !teacherName || !selectedTime || !topic || !userClass) {
+        this.view.showMessage("Please fill out all fields.", true);
+        return;
+    }
+
+    const teacher = this.model.getTeacher(subject, teacherName);
+    if (!teacher) {
+        this.view.showMessage("Teacher not found.", true);
+        return;
+    }
+
+    if (this.model.isTimeBooked(teacherName, selectedTime)) {
+        this.view.showMessage(
+            "The selected time is already booked. Please choose another time.",
+            true
+        );
+        return;
+    }
+
+    this.view.setLoading(true);
+    let bookingSaved = false;
+
+    try {
+        const userEmail = user.email;
+        const userName = user.displayName || userEmail.split('@')[0];
+
+        // Save booking to Firebase first
+        await this.model.saveBooking({
+            subject,
+            userEmail,
+            teacherName,
+            selectedTime,
+            topic,
+            teacherEmail: teacher.email,
+            userClass
+        });
+
+        // Mark that booking was successfully saved
+        bookingSaved = true;
+
+        // Prepare booking data for email
+        const bookingData = {
+            student_email: userEmail,
+            student_name: userName,
+            tutor_email: teacher.email,
+            tutor_name: teacherName,
+            tutor_number: teacher.number,
+            subject: subject,
+            topic: topic,
+            selected_time: this.formatDateTimeForAPI(selectedTime)
+        };
+
+        // Try to send email confirmation 
+        try {
+            const emailResult = await this.model.sendBookingConfirmationEmail(bookingData);
+            
+            if (emailResult.success) {
+                alert("Booking was successful and email confirmation sent to both you and your tutor. Accept the calendar invite for reminders!");
+            } else {
+                this.view.showMessage("Booking saved successfully, but email notification failed. Please contact support.", false);
+            }
+        } catch (emailError) {
+            console.error("Error sending email confirmation:", emailError);
+            this.view.showMessage("Booking saved successfully, but email notification failed. Please contact support.", false);
+        }
+
+        // Reset form and refresh bookings regardless of email status
+        this.view.resetForm();
+        await this.model.fetchBookings();
+
+    } catch (error) {
+        console.error("Error saving booking:", error);
+        this.view.showMessage("There was an error saving your booking. Please try again.", true);
+        
+        // Only remove from local bookedTimes if the booking actually failed to save
+        if (!bookingSaved && this.model.bookedTimes[teacherName]) {
+            const index = this.model.bookedTimes[teacherName].indexOf(selectedTime);
+            if (index > -1) {
+                this.model.bookedTimes[teacherName].splice(index, 1);
+            }
+        }
+    } finally {
+        this.view.setLoading(false);
+    }
+}
     // Test API connection
     async testAPIConnection() {
         try {

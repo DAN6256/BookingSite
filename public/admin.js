@@ -7,7 +7,10 @@ class BookingRecordsModel {
         try {
             firebase.initializeApp(FIREBASE_CONFIG);
         } catch (error) {
-            throw new Error("Initialization failed");
+            // Ignore error if already initialized
+            if (!/already exists/.test(error.message)) {
+                throw new Error("Initialization failed");
+            }
         }
     }
 
@@ -44,20 +47,25 @@ class BookingRecordsModel {
             const bookings = [];
             
             snapshot.forEach((userSnapshot) => {
+                // We need the user Key (student ID) to construct the delete path later
+                const studentId = userSnapshot.key;
+
                 userSnapshot.forEach((bookingSnapshot) => {
-                    bookings.push(bookingSnapshot.val());
+                    const bookingData = bookingSnapshot.val();
+                    // IMPORTANT: Attach keys to the object so we can delete it later
+                    bookingData.bookingId = bookingSnapshot.key;
+                    bookingData.studentId = studentId;
+                    
+                    bookings.push(bookingData);
                 });
             });
 
-            // Sort bookings by date (upcoming first, then passed)
             bookings.sort((a, b) => {
                 const dateA = this.parseDateTime(a.time);
                 const dateB = this.parseDateTime(b.time);
-                
                 if (!dateA && !dateB) return 0;
                 if (!dateA) return 1;
                 if (!dateB) return -1;
-                
                 return dateA - dateB;
             });
 
@@ -67,94 +75,68 @@ class BookingRecordsModel {
         }
     }
 
-    parseDateTime(dateTimeString) {
-        if (!dateTimeString || typeof dateTimeString !== "string") {
-            console.error("Invalid dateTimeString:", dateTimeString);
-            return null;
+    // NEW: Method to delete data from Firebase
+    async deleteBooking(studentId, bookingId) {
+        try {
+            await firebase
+                .database()
+                .ref(`/bookings/${studentId}/${bookingId}`)
+                .remove();
+            return true;
+        } catch (error) {
+            throw new Error(`Failed to delete booking: ${error.message}`);
         }
+    }
+
+    parseDateTime(dateTimeString) {
+        if (!dateTimeString || typeof dateTimeString !== "string") return null;
 
         try {
-            // Expected format: "Jan. 3, 2025 - 2:00 PM" or "MM/DD/YYYY - HH:MM AM/PM"
             const [datePart, timePart] = dateTimeString.split(" - ");
-            
-            if (!datePart || !timePart) {
-                console.error("Invalid format - missing date or time part:", dateTimeString);
-                return null;
-            }
+            if (!datePart || !timePart) return null;
 
             let sessionDate;
 
-            // Check if it's the new format (Jan. 3, 2025) or old format (MM/DD/YYYY)
             if (datePart.includes(',')) {
-                // New format: "Jan. 3, 2025 - 2:00 PM"
                 const dateParts = datePart.trim().split(/[\s,]+/);
-                if (dateParts.length < 3) {
-                    console.error("Invalid new date format:", datePart);
-                    return null;
-                }
+                if (dateParts.length < 3) return null;
                 
-                const monthStr = dateParts[0].replace('.', ''); // Remove period from month
+                const monthStr = dateParts[0].replace('.', '');
                 const day = parseInt(dateParts[1]);
                 const year = parseInt(dateParts[2]);
                 
-                // Convert month name to number
                 const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
                                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 const month = monthNames.findIndex(m => m === monthStr);
                 
-                if (month === -1) {
-                    console.error("Invalid month name:", monthStr);
-                    return null;
-                }
+                if (month === -1) return null;
                 
-                // Parse the time part (e.g., "2:00 PM")
                 const timeMatch = timePart.trim().match(/(\d+):(\d+)\s*(AM|PM)/i);
-                if (!timeMatch) {
-                    console.error("Invalid time format:", timePart);
-                    return null;
-                }
+                if (!timeMatch) return null;
                 
                 const [, hours, minutes, period] = timeMatch;
                 let hour = parseInt(hours);
                 
-                if (period.toUpperCase() === "PM" && hour !== 12) {
-                    hour += 12;
-                } else if (period.toUpperCase() === "AM" && hour === 12) {
-                    hour = 0;
-                }
+                if (period.toUpperCase() === "PM" && hour !== 12) hour += 12;
+                else if (period.toUpperCase() === "AM" && hour === 12) hour = 0;
                 
                 sessionDate = new Date(year, month, day, hour, parseInt(minutes));
             } else {
-                // Old format: "MM/DD/YYYY - HH:MM AM/PM"
-                const [month, day, year] = datePart
-                    .split("/")
-                    .map((num) => parseInt(num, 10));
-                
+                const [month, day, year] = datePart.split("/").map((num) => parseInt(num, 10));
                 const [time, ampm] = timePart.split(" ");
-                const [hour, minute] = time
-                    .split(":")
-                    .map((num) => parseInt(num, 10));
+                const [hour, minute] = time.split(":").map((num) => parseInt(num, 10));
 
                 sessionDate = new Date(
-                    year,
-                    month - 1,
-                    day,
+                    year, month - 1, day,
                     hour + (ampm === "PM" && hour !== 12 ? 12 : 0),
                     minute
                 );
-                
                 if (ampm === "AM" && hour === 12) sessionDate.setHours(0);
             }
 
-            // Validate the created date
-            if (isNaN(sessionDate.getTime())) {
-                console.error("Invalid date created from:", dateTimeString);
-                return null;
-            }
-
-            return sessionDate;
+            return isNaN(sessionDate.getTime()) ? null : sessionDate;
         } catch (error) {
-            console.error("Error parsing dateTime string:", error, "Input:", dateTimeString);
+            console.error("Error parsing dateTime string:", error);
             return null;
         }
     }
@@ -176,15 +158,12 @@ class BookingRecordsView {
         alert(message);
     }
 
-    showError(message) {
-        this.showAlert(`Error: ${message}`);
-    }
-
     updateBookingCount(count) {
         this.bookingCountElement.textContent = `Total Bookings Since 2025: ${count}`;
     }
 
-    createBookingCard(booking, isUpcoming) {
+    // MODIFIED: Added deleteHandler parameter
+    createBookingCard(booking, isUpcoming, deleteHandler) {
         const card = document.createElement("div");
         card.classList.add("card");
 
@@ -219,11 +198,27 @@ class BookingRecordsView {
         flag.classList.add(isUpcoming ? "upcoming" : "past");
         card.appendChild(flag);
 
+        // NEW: Create Delete Button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete Booking";
+        deleteBtn.classList.add("delete-card-btn"); // Specific class for styling
+        
+        // Attach click event
+        deleteBtn.onclick = () => {
+            // Confirm before deleting
+            if(confirm(`Are you sure you want to delete this booking for ${booking.userEmail}?`)) {
+                deleteHandler(booking.studentId, booking.bookingId);
+            }
+        };
+        
+        card.appendChild(deleteBtn);
+
         return card;
     }
 
-    addBookingCard(booking, isUpcoming) {
-        const card = this.createBookingCard(booking, isUpcoming);
+    // MODIFIED: Pass deleteHandler down
+    addBookingCard(booking, isUpcoming, deleteHandler) {
+        const card = this.createBookingCard(booking, isUpcoming, deleteHandler);
         
         if (isUpcoming) {
             this.upcomingContainer.appendChild(card);
@@ -266,46 +261,44 @@ class BookingRecordsController {
             }
 
             this.view.clearContainers();
-
             const bookings = await this.model.getBookings();
-
-            // Update total count
             this.view.updateBookingCount(bookings.length);
 
             let upcomingCount = 0;
             let passedCount = 0;
 
             bookings.forEach((booking) => {
-                if (!booking.userEmail) {
-                    return;
-                }
+                if (!booking.userEmail) return;
 
-                // Check if session is passed or upcoming
                 const sessionDate = this.model.parseDateTime(booking.time);
                 const isUpcoming = sessionDate && sessionDate >= new Date();
 
-                // Add card to the respective section
-                this.view.addBookingCard(booking, isUpcoming);
+                // Pass the delete handler callback
+                this.view.addBookingCard(booking, isUpcoming, (sId, bId) => this.handleDelete(sId, bId));
 
-                if (isUpcoming) {
-                    upcomingCount++;
-                } else {
-                    passedCount++;
-                }
+                if (isUpcoming) upcomingCount++;
+                else passedCount++;
             });
 
-            // Show empty state messages if no bookings in either section
-            if (upcomingCount === 0) {
-                this.view.showEmptyState(this.view.upcomingContainer, "No upcoming sessions");
-            }
-
-            if (passedCount === 0) {
-                this.view.showEmptyState(this.view.passedContainer, "No passed sessions");
-            }
+            if (upcomingCount === 0) this.view.showEmptyState(this.view.upcomingContainer, "No upcoming sessions");
+            if (passedCount === 0) this.view.showEmptyState(this.view.passedContainer, "No passed sessions");
 
         } catch (error) {
             console.error("Error loading bookings:", error);
-            this.view.showError("Failed to load bookings");
+            this.view.showAlert("Failed to load bookings");
+        }
+    }
+
+    // NEW: Handle Deletion
+    async handleDelete(studentId, bookingId) {
+        try {
+            await this.model.deleteBooking(studentId, bookingId);
+            this.view.showAlert("Booking deleted successfully.");
+            // Reload the list to reflect changes
+            await this.loadBookings(); 
+        } catch (error) {
+            console.error("Delete error:", error);
+            this.view.showAlert("Error deleting booking: " + error.message);
         }
     }
 
